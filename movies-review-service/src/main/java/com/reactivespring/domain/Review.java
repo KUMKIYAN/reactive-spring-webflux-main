@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,11 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document
-public class MovieInfo {
+public class Review {
     @Id
-    private String movieInfoId;
-    private String name;
-    private Integer year;
-    private List<String> cast;
-    private LocalDate release_date;
+    private String reviewId;
+    private Long movieInfoId;
+    private String comment;
+    private double rating;
 }
