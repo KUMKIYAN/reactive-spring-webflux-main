@@ -15,6 +15,11 @@ curl -i \
 -H "Content-Type: application/json" \
 -X POST http://localhost:8081/v1/reviews
 
+curl -i \
+-d '{"reviewId":null, "movieInfoId":2, "comment": "Excellent Movie", "rating":8.0}' \
+-H "Content-Type: application/json" \
+-X POST http://localhost:8081/v1/reviews
+
 
 GET-ALL-REVIEWS:
 ----------------

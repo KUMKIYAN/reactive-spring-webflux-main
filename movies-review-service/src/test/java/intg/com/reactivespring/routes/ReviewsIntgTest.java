@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.test.StepVerifier;
 
 import java.util.List;
 
@@ -127,5 +128,36 @@ public class ReviewsIntgTest {
                 .is2xxSuccessful()
                 .expectBodyList(Review.class)
                 .hasSize(2);
+    }
+
+    @Test
+    void getReview_Stream() {
+        var review = new Review(null, 1L, "super", 8.0);
+
+        webTestClient.post()
+                .uri(REVIEWS_URL)
+                .bodyValue(review)
+                .exchange()
+                .expectStatus()
+                .isCreated()
+                .expectBody(Review.class).consumeWith(mo -> {
+                    var savedReview = mo.getResponseBody();
+                    assert savedReview != null;
+                    assert savedReview.getReviewId() != null;
+                });
+
+        var reviewStreamFlux = webTestClient.get()
+                .uri(REVIEWS_URL+"/stream")
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .returnResult(Review.class)
+                .getResponseBody();
+
+        StepVerifier.create(reviewStreamFlux)
+                .assertNext(review1 -> {
+                    assert review1.getReviewId() !=null;
+                }).thenCancel().verify();
+
     }
 }
