@@ -23,3 +23,6 @@ curl -i \
 -H "Content-Type: application/json" \
 -X POST http://localhost:8081/v1/reviews
 
+
+curl -i http://localhost:8081/v1/movies/3
+

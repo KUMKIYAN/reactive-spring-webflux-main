@@ -23,5 +23,4 @@ public class ReviewsRouter {
                 .GET("/v1/helloword", (request -> ServerResponse.ok().bodyValue("hello world")))
                 .build();
     }
-
 }
